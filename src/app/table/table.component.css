@@ -1,0 +1,57 @@
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 20px;
+}
+
+.button {
+    margin: 10px;
+}
+
+
+.filter {
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 20px; 
+}
+  .mat-elevation-z8 {
+    margin: 20px;
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th.mat-header-cell,
+  td.mat-cell {
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  th.mat-header-cell {
+    background-color: #f0f0f0;
+  }
+  
+  tr.mat-header-row,
+  tr.mat-row {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  tr.mat-row.mat-no-data {
+    font-style: italic;
+    color: #999;
+  }
+  
+  .mat-paginator {
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+  }
+  
+  
