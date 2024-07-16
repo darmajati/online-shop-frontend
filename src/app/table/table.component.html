@@ -1,49 +1,35 @@
 <div class="button-container">
-  <a mat-flat-button routerLink="/add-customer" class="button">Add Customer</a>
+  <a mat-flat-button [routerLink]="addRoute" class="button">{{ addButtonLabel }}</a>
 </div>
 
 <mat-form-field class="filter">
   <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Search..." #input>
 </mat-form-field>
 
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" matSort>
 
-    <ng-container matColumnDef="customerId">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-      <td mat-cell *matCellDef="let row"> {{row.customerId}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="customerName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-      <td mat-cell *matCellDef="let row"> {{row.customerName}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="customerAddress">
-      <th mat-header-cell *matHeaderCellDef> Address </th>
-      <td mat-cell *matCellDef="let row"> {{row.customerAddress}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="customerPhone">
-      <th mat-header-cell *matHeaderCellDef> Phone Number </th>
-      <td mat-cell *matCellDef="let row"> {{row.customerPhone}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="pic">
-      <th mat-header-cell *matHeaderCellDef> Picture </th>
-      <td mat-cell *matCellDef="let row"> <img [src]="row.pic" alt="{{row.customerName}}'s Image" width="40" height="40"> </td>
-    </ng-container>
-
-    <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef> Action </th>
+    <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ column | titlecase }} </th>
       <td mat-cell *matCellDef="let row">
-        <button mat-icon-button (click)="editCustomer(row.customerId)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button (click)="deleteCustomer(row.customerId)">
-          <mat-icon>delete</mat-icon>
-        </button>
+        <ng-container *ngIf="column === 'pic'">
+          <img *ngIf="row[column]" [src]="row[column]" alt="Image" width="40" height="40">
+        </ng-container>
+        <ng-container *ngIf="column !== 'pic' && column !== 'Action'">
+          {{ row[column] }}
+        </ng-container>
+        <ng-container *ngIf="column === 'Action'">
+          <button mat-icon-button (click)="viewDetail(row[idColumn])">
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <button mat-icon-button (click)="edit(row[idColumn])">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="delete(row[idColumn])">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </ng-container>
       </td>
     </ng-container>
 
@@ -51,9 +37,9 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
     <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="7">No data matching the filter "{{input.value}}"</td>
+      <td class="mat-cell" [attr.colspan]="displayedColumns.length">No data matching the filter "{{ input.value }}"</td>
     </tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of items"></mat-paginator>
 </div>

@@ -1,4 +1,4 @@
-import {OnInit, AfterViewInit, Component, ViewChild} from '@angular/core';
+import {OnInit, AfterViewInit, Component, ViewChild, Input} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -8,8 +8,6 @@ import {MatButtonModule} from '@angular/material/button';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { Customer } from '../customer/customer';
-import { CustomerService } from '../customer/customer.service';
 
 @Component({
   selector: 'app-table',
@@ -19,33 +17,20 @@ import { CustomerService } from '../customer/customer.service';
   styleUrl: './table.component.css'
 })
 export class TableComponent implements AfterViewInit, OnInit {
-  displayedColumns: string[] = ['customerId', 'customerName', 'customerAddress', 'customerPhone', 'pic', 'action'];
-  dataSource: MatTableDataSource<Customer>;
+  @Input() displayedColumns: string[] = [];
+  @Input() dataSource: MatTableDataSource<any> = new MatTableDataSource();
+  @Input() addButtonLabel: string = '';
+  @Input() addRoute: string = '';
+  @Input() idColumn: string = 'id';
+  @Input() componentDetail: string = '';
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator = {} as MatPaginator;
+  @ViewChild(MatSort) sort: MatSort = {} as MatSort;
 
-  constructor(private router: Router, private customerService: CustomerService) {
-    this.dataSource = new MatTableDataSource();
-    this.paginator = {} as MatPaginator;
-    this.sort = {} as MatSort;
-  }
+  constructor(private router: Router) {}
 
-  ngOnInit() {
-    this.loadCustomers();
-  }
-
-  loadCustomers() {
-    this.customerService.getAll().subscribe({
-      next: (data: Customer[]) => {
-        this.dataSource.data = data;
-      },
-      error: (error) => {
-        console.error('There was an error!', error);
-      }
-    });
-  }
   
+  ngOnInit() {}
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -60,17 +45,23 @@ export class TableComponent implements AfterViewInit, OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  goToAddCustomer() {  // Tambahkan fungsi ini
-    this.router.navigate(['/add-customer']);
+
+   goToAdd() {
+    this.router.navigate([this.addRoute]);
   }
 
-  editCustomer(id: number) {
-    // Tambahkan logika untuk mengedit pelanggan
-    console.log(`Edit customer with ID: ${id}`);
+  edit(id: number) {
+    // Tambahkan logika untuk mengedit item
+    console.log(`Edit item with ID: ${id}`);
   }
 
-  deleteCustomer(id: number) {
-    // Tambahkan logika untuk menghapus pelanggan
-    console.log(`Delete customer with ID: ${id}`);
+  delete(id: number) {
+    // Tambahkan logika untuk menghapus item
+    console.log(`Delete item with ID: ${id}`);
+  }
+
+  viewDetail(id: number) {
+    console.log(`View details of item with ID: ${id}`);
+    this.router.navigate([`${this.componentDetail}/${id}`]);
   }
 }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, catchError} from 'rxjs';
-import { Customer, CustomerListResponseDto } from './customer';
+import { Customer, CustomerListResponseDto, CustomerDetailResponse } from './customer';
 
 @Injectable({
   providedIn: 'root'
@@ -30,14 +30,10 @@ export class CustomerService {
     return this.http.request(req);
   }
 
-  find(id: number): Observable<any> {
-    if(id !== undefined) {
-      return this.http
-        .get(this.apiUrl + '/' + id)
-        .pipe();
-    } else {
-      throw new Error('ID is undefined');
-    }
+  getById(id: string): Observable<CustomerDetailResponse> {
+    return this.http.get<CustomerDetailResponse>(`${this.apiUrl}/${id}`).pipe(
+      catchError(this.errorHandler)
+    );
   }
 
   errorHandler(error: any): Observable<never> {
