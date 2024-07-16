@@ -10,50 +10,38 @@
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" matSort>
 
-    <!-- ID Column -->
-    <ng-container matColumnDef="id">
+    <ng-container matColumnDef="customerId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-      <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+      <td mat-cell *matCellDef="let row"> {{row.customerId}} </td>
     </ng-container>
 
-    <!-- Customer Image Column -->
-    <ng-container matColumnDef="imageUrl">
-      <th mat-header-cell *matHeaderCellDef> Image </th>
-      <td mat-cell *matCellDef="let row"> <img [src]="row.imageUrl" alt="{{row.name}}'s Image" width="40" height="40"> </td>
-    </ng-container>
-
-    <!-- Customer Name Column -->
-    <ng-container matColumnDef="name">
+    <ng-container matColumnDef="customerName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-      <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+      <td mat-cell *matCellDef="let row"> {{row.customerName}} </td>
     </ng-container>
 
-    <!-- Customer Address Column -->
-    <ng-container matColumnDef="address">
+    <ng-container matColumnDef="customerAddress">
       <th mat-header-cell *matHeaderCellDef> Address </th>
-      <td mat-cell *matCellDef="let row"> {{row.address}} </td>
+      <td mat-cell *matCellDef="let row"> {{row.customerAddress}} </td>
     </ng-container>
 
-    <!-- Customer Phone Number Column -->
-    <ng-container matColumnDef="phoneNumber">
+    <ng-container matColumnDef="customerPhone">
       <th mat-header-cell *matHeaderCellDef> Phone Number </th>
-      <td mat-cell *matCellDef="let row"> {{row.phoneNumber}} </td>
+      <td mat-cell *matCellDef="let row"> {{row.customerPhone}} </td>
     </ng-container>
 
-    <!-- Last Order Column -->
-    <ng-container matColumnDef="lastOrder">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Order </th>
-      <td mat-cell *matCellDef="let row"> {{row.lastOrder | date:'short'}} </td>
+    <ng-container matColumnDef="pic">
+      <th mat-header-cell *matHeaderCellDef> Picture </th>
+      <td mat-cell *matCellDef="let row"> <img [src]="row.pic" alt="{{row.customerName}}'s Image" width="40" height="40"> </td>
     </ng-container>
 
-    <!-- Action Column -->
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef> Action </th>
       <td mat-cell *matCellDef="let row">
-        <button mat-icon-button (click)="editCustomer(row.id)">
+        <button mat-icon-button (click)="editCustomer(row.customerId)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="deleteCustomer(row.id)">
+        <button mat-icon-button (click)="deleteCustomer(row.customerId)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>
@@ -62,7 +50,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-    <!-- Row shown when there is no matching data. -->
     <tr class="mat-row" *matNoDataRow>
       <td class="mat-cell" colspan="7">No data matching the filter "{{input.value}}"</td>
     </tr>
