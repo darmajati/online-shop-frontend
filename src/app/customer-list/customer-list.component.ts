@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { TableComponent } from '../table/table.component';
-import {MatButtonModule} from '@angular/material/button';
 import { MatTableDataSource } from '@angular/material/table';
 import { CustomerService } from '../customer/customer.service';
 import { Customer } from '../customer/customer';
@@ -8,7 +7,7 @@ import { Customer } from '../customer/customer';
 @Component({
   selector: 'app-customer-list',
   standalone: true,
-  imports: [TableComponent, MatButtonModule],
+  imports: [TableComponent],
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.css']
 })

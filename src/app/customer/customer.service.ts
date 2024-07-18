@@ -20,15 +20,14 @@ export class CustomerService {
     );
 }
 
-  create(formData: FormData): Observable<HttpEvent<Customer>> {
-    const req = new HttpRequest('POST', this.apiUrl, formData, {
-      reportProgress: true,
-      responseType: 'json',
-      headers: new HttpHeaders()
-    });
+create(formData: FormData): Observable<HttpEvent<Customer>> {
+  const req = new HttpRequest('POST', this.apiUrl, formData, {
+    reportProgress: true,
+    responseType: 'json'
+  });
+  return this.http.request(req);
+}
 
-    return this.http.request(req);
-  }
 
   getById(id: string): Observable<CustomerDetailResponse> {
     return this.http.get<CustomerDetailResponse>(`${this.apiUrl}/${id}`).pipe(
@@ -44,9 +43,9 @@ export class CustomerService {
       throw new Error(errorMessage);
   }
 
-  private getHttpOptions(): object {
+  private getHttpOptions(): { headers: HttpHeaders; } {
     return {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' })
     };
   }
 }

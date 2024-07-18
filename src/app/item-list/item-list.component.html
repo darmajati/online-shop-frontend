@@ -1,1 +1,11 @@
-<h3 class="title">List Item</h3>
+<h3 class="title">List Customer</h3>
+
+<app-table 
+  [displayedColumns]="displayedColumns" 
+  [dataSource]="dataSource" 
+  addButtonLabel="Add Item" 
+  addRoute="/add-item"
+  [idColumn]="'itemId'"
+  [componentDetail]="getDetailRoute()"
+  >
+</app-table>

@@ -6,6 +6,16 @@
   <h3>Add Customer</h3>
 
   <div class="form">
+    <div class="file-input-wrapper">
+      <div class="file-input-wrapper" *ngIf="!uploadedImage">
+        <label for="file-upload" class="custom-file-upload"> Upload Photo </label>
+        <input id="file-upload" type="file" class="file-input" (change)="onFileChange($event)" />
+      </div>
+      <div *ngIf="uploadedImage" class="image-preview">
+        <img [src]="uploadedImage" alt="Uploaded Image" width="150" height="150" />
+        <span class="close-icon" (click)="clearImage()">&times;</span>
+      </div>
+    </div>
     <mat-form-field class="full-width">
       <mat-label>Customer Name</mat-label>
       <input matInput />
@@ -18,14 +28,9 @@
       <mat-label>Customer Phone Number</mat-label>
       <input matInput />
     </mat-form-field>
-    <div class="file-input-wrapper">
-      <label for="file-upload" class="custom-file-upload"> Upload Photo </label>
-      <input id="file-upload" type="file" class="file-input" />
-    </div>
+    
     <div class="add-button">
-      <a mat-raised-button href="https://www.google.com/" target="_blank"
-        >Create Customer</a
-      >
-    </div>
+      <button mat-raised-button (click)="onSubmit()">Create Customer</button>
+    </div>    
   </div>
 </div>

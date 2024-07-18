@@ -1,1 +1,11 @@
 <h3 class="title">List Order</h3>
+
+<app-table 
+  [displayedColumns]="displayedColumns" 
+  [dataSource]="dataSource" 
+  addButtonLabel="Add Order" 
+  addRoute="/add-order"
+  [idColumn]="'orderId'"
+  [componentDetail]="getDetailRoute()"
+  >
+</app-table>

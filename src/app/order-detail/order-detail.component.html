@@ -1,0 +1,38 @@
+<mat-card class="card">
+    <a mat-icon-button routerLink="/list">
+      <mat-icon routerLink="/list">arrow_back</mat-icon>
+    </a>
+    <mat-card-header>
+      <div class="header-container">
+        <mat-card-title class="title">Order Detail</mat-card-title>
+      </div>
+      <div mat-card-avatar class="example-header-image"></div>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list role="list">
+        <mat-list-item *ngIf="order" role="listitem">
+          <span class="bold">Order Id:</span> {{ order?.orderId }}
+        </mat-list-item>
+        <mat-list-item *ngIf="order" role="listitem">
+          <span class="bold">Order Code:</span> {{ order?.orderCode }}
+        </mat-list-item>
+        <mat-list-item *ngIf="order" role="listitem">
+          <span class="bold">Order Date:</span> {{ order?.orderDate }}
+        </mat-list-item>
+        <mat-list-item *ngIf="order" role="listitem">
+          <span class="bold">Total Price:</span> {{ order?.totalPrice }}
+        </mat-list-item>
+        <mat-list-item *ngIf="order" role="listitem">
+          <span class="bold">Customer Id:</span> {{ order?.customerId }}
+        </mat-list-item>
+
+        <mat-list-item *ngIf="order" role="listitem">
+          <span class="bold">Item Id:</span> {{ order?.itemId }}
+        </mat-list-item>
+        <mat-list-item *ngIf="order" role="listitem">
+          <span class="bold">Quantity:</span> {{ order?.quantity }}
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+  
