@@ -1,1 +1,28 @@
-<p>item-form works!</p>
+<div class="back">
+  <a routerLink="/list">&lt; Back</a>
+</div>
+
+<div class="content">
+  <h3>Add item</h3>
+
+  <div class="form">
+    <div class="file-input-wrapper"></div>
+    <mat-form-field class="full-width">
+      <mat-label>Item Name</mat-label>
+      <input matInput />
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Stock</mat-label>
+      <input matInput type="number" />
+    </mat-form-field>
+    <mat-form-field floatLabel="always" class="full-width">
+        <mat-label>Price</mat-label>
+        <input matInput type="number" placeholder="0" />
+        <span matTextPrefix>Rp</span>
+      </mat-form-field>
+
+    <div class="add-button">
+      <button mat-raised-button (click)="onSubmit()">Create Customer</button>
+    </div>
+  </div>
+</div>
