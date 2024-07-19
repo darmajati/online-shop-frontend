@@ -7,5 +7,6 @@
   addRoute="/add-customer"
   [idColumn]="'customerId'"
   [componentDetail]="getDetailRoute()"
+  [deleteCallback]="deleteCustomer.bind(this)"
   >
 </app-table>

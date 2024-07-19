@@ -11,7 +11,7 @@ import { OrderDetailComponent } from './order-detail/order-detail.component';
 export const routes: Routes = [
     { path: 'list', component: ListComponent },
     { path: 'add-customer', component: CustomerFormComponent },
-    { path: 'add-items', component: ItemFormComponent },
+    { path: 'add-item', component: ItemFormComponent },
     { path: 'add-order', component: OrderFormComponent },
     { path: 'customer-detail/:id', component: CustomerDetailComponent },
     { path: 'item-detail/:id', component: ItemDetailComponent},

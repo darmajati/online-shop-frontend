@@ -34,6 +34,17 @@ export class CustomerListComponent {
     });
   }
 
+  deleteCustomer(id: number) {
+    this.customerService.deleteCustomer(id).subscribe({
+      next: () => {
+        this.dataSource.data = this.dataSource.data.filter(customer => customer.customerId !== id);
+      },
+      error: (error) => {
+        console.error('There was an error!', error);
+      }
+    });
+  }
+
   getDetailRoute(): string {
     return '/customer-detail';
   }

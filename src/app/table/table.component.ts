@@ -23,6 +23,7 @@ export class TableComponent implements AfterViewInit, OnInit {
   @Input() addRoute: string = '';
   @Input() idColumn: string = 'id';
   @Input() componentDetail: string = '';
+  @Input() deleteCallback: (id: number) => void = () => {};
 
   @ViewChild(MatPaginator) paginator: MatPaginator = {} as MatPaginator;
   @ViewChild(MatSort) sort: MatSort = {} as MatSort;
@@ -56,12 +57,12 @@ export class TableComponent implements AfterViewInit, OnInit {
   }
 
   delete(id: number) {
-    // Tambahkan logika untuk menghapus item
-    console.log(`Delete item with ID: ${id}`);
+    if (this.deleteCallback) {
+      this.deleteCallback(id);
+    }
   }
 
   viewDetail(id: number) {
-    console.log(`View details of item with ID: ${id}`);
     this.router.navigate([`${this.componentDetail}/${id}`]);
   }
 }

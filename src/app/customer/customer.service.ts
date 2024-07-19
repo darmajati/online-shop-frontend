@@ -35,6 +35,12 @@ create(formData: FormData): Observable<HttpEvent<Customer>> {
     );
   }
 
+  deleteCustomer(id: number): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/${id}/delete`, {}).pipe(
+      catchError(this.errorHandler)
+    );
+  }  
+
   errorHandler(error: any): Observable<never> {
     const errorMessage =
       error.error instanceof ErrorEvent
