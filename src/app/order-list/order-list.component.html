@@ -9,9 +9,6 @@
   [componentDetail]="getDetailRoute()"
   [componentEdit]="getEditRoute()"
   [deleteCallback]="deleteOrder.bind(this)"
+  [showDownloadButton]="true" 
   >
 </app-table>
-
-<div class="button">
-  <a mat-flat-button href="http://localhost:8080/report/orders" target="_blank">download report</a>
-</div>

@@ -1,5 +1,18 @@
 <div class="button-container">
-  <a mat-flat-button [routerLink]="addRoute" class="button">{{ addButtonLabel }}</a>
+  <div *ngIf="showDownloadButton">
+    <a
+      mat-flat-button
+      href="http://localhost:8080/report/orders"
+      target="_blank"
+      class="button"
+      id="report"
+      >Download Order Report<mat-icon>save_alt</mat-icon></a
+    >
+  </div>
+
+  <a mat-flat-button [routerLink]="addRoute" class="button">{{
+    addButtonLabel
+  }}<mat-icon>add_circle</mat-icon></a>
 </div>
 
 <mat-form-field class="filter">
