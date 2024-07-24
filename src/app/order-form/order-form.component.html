@@ -1,47 +1,41 @@
 <div class="back">
-    <a routerLink="/list">&lt; Back</a>
-  </div>
-  
-  <div class="content">
-    <h3>Add Order</h3>
-  
-    <div class="form">
+  <a routerLink="/list">&lt; Back</a>
+</div>
+
+<div class="content">
+  <h3>{{ isEditMode ? 'Edit Order' : 'Add Order' }}</h3>
+
+  <div class="form">
+    <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+      <!-- Customer Autocomplete -->
       <mat-form-field class="full-width">
-        <mat-label>Customer Id</mat-label>
-        <input type="text"
-               aria-label="Number"
-               matInput
-               [formControl]="customerControl"
-               [matAutocomplete]="autoCustomer">
-        <mat-autocomplete #autoCustomer="matAutocomplete">
-          <mat-option *ngFor="let option of filteredCustomers | async" [value]="option.customerId">
-            {{ option.customerName }}
+        <input type="text" placeholder="Customer" matInput [formControl]="customerControl" [matAutocomplete]="autoCustomer">
+        <mat-autocomplete #autoCustomer="matAutocomplete" (optionSelected)="onCustomerSelected($event)">
+          <mat-option *ngFor="let customer of filteredCustomers | async" [value]="customer.customerId">
+            {{ customer.customerName }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-  
+    
+      <!-- Item Autocomplete -->
       <mat-form-field class="full-width">
-        <mat-label>Item Id</mat-label>
-        <input type="text"
-               aria-label="Number"
-               matInput
-               [formControl]="itemControl"
-               [matAutocomplete]="autoItem">
-        <mat-autocomplete #autoItem="matAutocomplete">
-          <mat-option *ngFor="let option of filteredItems | async" [value]="option.itemId">
-            {{ option.itemName }}
+        <input type="text" placeholder="Item" matInput [formControl]="itemControl" [matAutocomplete]="autoItem">
+        <mat-autocomplete #autoItem="matAutocomplete" (optionSelected)="onItemSelected($event)">
+          <mat-option *ngFor="let item of filteredItems | async" [value]="item.itemId">
+            {{ item.itemName }}
           </mat-option>
         </mat-autocomplete>
-      </mat-form-field>
-  
+      </mat-form-field >
+    
+      <!-- Quantity Input -->
       <mat-form-field class="full-width">
-        <mat-label>Quantity</mat-label>
-        <input matInput type="number" />
+        <input matInput placeholder="Quantity" formControlName="quantity" type="number">
       </mat-form-field>
-  
+
       <div class="add-button">
-        <button mat-raised-button (click)="onSubmit()">Create Order</button>
+      <button mat-raised-button type="submit">Submit</button>
       </div>
-    </div>
+    </form>
+    
   </div>
-  
+</div>

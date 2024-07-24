@@ -9,10 +9,10 @@ import { TableComponent } from '../table/table.component';
   standalone: true,
   imports: [TableComponent],
   templateUrl: './item-list.component.html',
-  styleUrl: './item-list.component.css'
+  styleUrl: './item-list.component.css',
 })
 export class ItemListComponent {
-  displayedColumns: string[] = ['itemId', 'itemName', 'itemCode', 'Action']
+  displayedColumns: string[] = ['itemId', 'itemName', 'itemCode', 'Action'];
   dataSource: MatTableDataSource<Item>;
 
   constructor(private itemService: ItemService) {
@@ -23,18 +23,35 @@ export class ItemListComponent {
     this.loadItems();
   }
 
-  loadItems(){
+  loadItems() {
     this.itemService.getAll().subscribe({
       next: (data: Item[]) => {
         this.dataSource.data = data;
       },
       error: (error) => {
-        console.error('There was an error!', error)
-      }
-    })
+        console.error('There was an error!', error);
+      },
+    });
+  }
+
+  deleteItem(id: number) {
+    this.itemService.deleteItem(id).subscribe({
+      next: () => {
+        this.dataSource.data = this.dataSource.data.filter(
+          (item) => item.itemId !== id
+        );
+      },
+      error: (error) => {
+        console.error('There was an error!', error);
+      },
+    });
   }
 
   getDetailRoute(): string {
     return '/item-detail';
+  }
+
+  getEditRoute(): string {
+    return '/edit-item';
   }
 }

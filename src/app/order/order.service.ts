@@ -26,6 +26,25 @@ export class OrderService {
       )
   }
 
+  create(order: Order): Observable<Order> {
+    return this.http.post<Order>(this.apiUrl, order)
+      .pipe(
+        catchError(this.errorHandler)
+      );
+  }
+
+  update(id: string, item: Order): Observable<Order> {
+    return this.http.put<Order>(`${this.apiUrl}/${id}`, item).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
+  deleteOrder(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}/delete`).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
   errorHandler(error: any): Observable<never> {
     const errorMessage =
       error.error instanceof ErrorEvent

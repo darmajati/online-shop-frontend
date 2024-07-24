@@ -3,11 +3,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Order } from '../order/order';
 import { OrderService } from '../order/order.service';
 import { TableComponent } from '../table/table.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-order-list',
   standalone: true,
-  imports: [TableComponent],
+  imports: [TableComponent, MatButtonModule],
   templateUrl: './order-list.component.html',
   styleUrl: './order-list.component.css',
 })
@@ -17,7 +18,7 @@ export class OrderListComponent {
     'orderCode',
     'orderDate',
     'totalPrice',
-    'Action'
+    'Action',
   ];
   dataSource: MatTableDataSource<Order>;
 
@@ -40,7 +41,22 @@ export class OrderListComponent {
     });
   }
 
+  deleteOrder(id: number) {
+    this.orderService.deleteOrder(id).subscribe({
+      next: () => {
+        this.loadOrder();
+      },
+      error: (error) => {
+        console.error('There was an error!', error);
+      },
+    });
+  }
+
   getDetailRoute(): string {
     return '/order-detail';
+  }
+
+  getEditRoute(): string {
+    return '/edit-order';
   }
 }

@@ -2,3 +2,9 @@
     text-align: center;
     margin: 3rem 0;
 }
+
+.button{
+    margin: 1rem;
+    display: flex;
+    justify-content: end;
+}

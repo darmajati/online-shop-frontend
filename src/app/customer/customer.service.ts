@@ -20,17 +20,30 @@ export class CustomerService {
     );
 }
 
-create(formData: FormData): Observable<HttpEvent<Customer>> {
-  const req = new HttpRequest('POST', this.apiUrl, formData, {
-    reportProgress: true,
-    responseType: 'json'
-  });
-  return this.http.request(req);
-}
-
 
   getById(id: string): Observable<CustomerDetailResponse> {
     return this.http.get<CustomerDetailResponse>(`${this.apiUrl}/${id}`).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
+  addCustomer(data: any, photo: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+    formData.append('photo', photo);
+
+    return this.http.post<any>(this.apiUrl, formData).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
+  updateCustomer(id: string, data: any, photo?: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+    if (photo) {
+      formData.append('photo', photo);
+    }
+    return this.http.put<any>(`${this.apiUrl}/${id}`, formData).pipe(
       catchError(this.errorHandler)
     );
   }
@@ -47,11 +60,5 @@ create(formData: FormData): Observable<HttpEvent<Customer>> {
         ? error.error.errorMessage
         : `Error Code: $(error.status)\nMessage : ${error.message}`;
       throw new Error(errorMessage);
-  }
-
-  private getHttpOptions(): { headers: HttpHeaders; } {
-    return {
-      headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' })
-    };
   }
 }

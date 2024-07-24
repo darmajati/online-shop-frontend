@@ -48,4 +48,8 @@ export class CustomerListComponent {
   getDetailRoute(): string {
     return '/customer-detail';
   }
+
+  getEditRoute(): string {
+    return '/edit-customer';
+  }
 }

@@ -3,9 +3,9 @@
 </div>
 
 <div class="content">
-  <h3>Add Customer</h3>
+  <h3>{{ isEditMode ? 'Edit' : 'Add' }} Customer</h3>
 
-  <div class="form">
+  <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="form">
     <div class="file-input-wrapper">
       <div class="file-input-wrapper" *ngIf="!uploadedImage">
         <label for="file-upload" class="custom-file-upload"> Upload Photo </label>
@@ -18,19 +18,19 @@
     </div>
     <mat-form-field class="full-width">
       <mat-label>Customer Name</mat-label>
-      <input matInput />
+      <input matInput formControlName="customerName" />
     </mat-form-field>
     <mat-form-field class="full-width">
       <mat-label>Customer Address</mat-label>
-      <input matInput />
+      <input matInput formControlName="customerAddress" />
     </mat-form-field>
     <mat-form-field class="full-width">
       <mat-label>Customer Phone Number</mat-label>
-      <input matInput />
+      <input matInput formControlName="customerPhone" />
     </mat-form-field>
     
     <div class="add-button">
-      <button mat-raised-button (click)="onSubmit()">Create Customer</button>
+      <button mat-raised-button type="submit">{{ isEditMode ? 'Update' : 'Create' }} Customer</button>
     </div>    
-  </div>
+  </form>
 </div>

@@ -23,6 +23,7 @@ export class TableComponent implements AfterViewInit, OnInit {
   @Input() addRoute: string = '';
   @Input() idColumn: string = 'id';
   @Input() componentDetail: string = '';
+  @Input() componentEdit: string = '';
   @Input() deleteCallback: (id: number) => void = () => {};
 
   @ViewChild(MatPaginator) paginator: MatPaginator = {} as MatPaginator;
@@ -52,8 +53,7 @@ export class TableComponent implements AfterViewInit, OnInit {
   }
 
   edit(id: number) {
-    // Tambahkan logika untuk mengedit item
-    console.log(`Edit item with ID: ${id}`);
+    this.router.navigate([`${this.componentEdit}/${id}`]);
   }
 
   delete(id: number) {

@@ -26,6 +26,25 @@ export class ItemService {
     );
   }
 
+  create(item: Item): Observable<Item> {
+    return this.http.post<Item>(this.apiUrl, item)
+      .pipe(
+        catchError(this.errorHandler)
+      );
+  }
+
+  update(id: string, item: Item): Observable<Item> {
+    return this.http.put<Item>(`${this.apiUrl}/${id}`, item).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
+  deleteItem(id: number): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/${id}/delete`, {}).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
   errorHandler(error: any): Observable<never> {
     const errorMessage =
       error.error instanceof ErrorEvent
