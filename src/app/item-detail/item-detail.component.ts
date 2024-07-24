@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatIcon } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ItemDetailResponse } from '../item/item';
@@ -11,11 +11,11 @@ import { ItemService } from '../item/item.service';
 @Component({
   selector: 'app-item-detail',
   standalone: true,
-  imports: [CommonModule, MatListModule, RouterModule, MatCardModule, MatButtonModule, MatIcon],
+  imports: [CommonModule, MatListModule, RouterModule, MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './item-detail.component.html',
-  styleUrl: './item-detail.component.css'
+  styleUrls: ['./item-detail.component.css']
 })
-export class ItemDetailComponent {
+export class ItemDetailComponent implements OnInit {
   item: ItemDetailResponse | undefined;
 
   constructor(
@@ -36,8 +36,8 @@ export class ItemDetailComponent {
         this.item = item;
       },
       error: (error) => {
-        console.error('There was an error!', error)
+        console.error('There was an error!', error);
       }
-    })
+    });
   }
 }

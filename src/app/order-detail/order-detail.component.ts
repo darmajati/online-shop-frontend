@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
@@ -15,7 +15,7 @@ import { OrderService } from '../order/order.service';
   templateUrl: './order-detail.component.html',
   styleUrl: './order-detail.component.css'
 })
-export class OrderDetailComponent {
+export class OrderDetailComponent implements OnInit{
   order: OrderDetailResponse | undefined;
 
   constructor(
