@@ -7,13 +7,22 @@ import { MatListModule } from '@angular/material/list';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ItemDetailResponse } from '../item/item';
 import { ItemService } from '../item/item.service';
+import { RupiahPipe } from '../rupiah.pipe';
 
 @Component({
   selector: 'app-item-detail',
   standalone: true,
-  imports: [CommonModule, MatListModule, RouterModule, MatCardModule, MatButtonModule, MatIconModule],
+  imports: [
+    CommonModule,
+    MatListModule,
+    RouterModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    RupiahPipe
+  ],
   templateUrl: './item-detail.component.html',
-  styleUrls: ['./item-detail.component.css']
+  styleUrls: ['./item-detail.component.css'],
 })
 export class ItemDetailComponent implements OnInit {
   item: ItemDetailResponse | undefined;
@@ -25,7 +34,7 @@ export class ItemDetailComponent implements OnInit {
 
   ngOnInit(): void {
     const itemId = this.route.snapshot.paramMap.get('id');
-    if(itemId) {
+    if (itemId) {
       this.loadItemDetail(itemId);
     }
   }
@@ -37,7 +46,7 @@ export class ItemDetailComponent implements OnInit {
       },
       error: (error) => {
         console.error('There was an error!', error);
-      }
+      },
     });
   }
 }

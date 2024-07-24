@@ -1,20 +1,38 @@
-import {OnInit, AfterViewInit, Component, ViewChild, Input} from '@angular/core';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatSort, MatSortModule} from '@angular/material/sort';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatButtonModule} from '@angular/material/button';
+import {
+  OnInit,
+  AfterViewInit,
+  Component,
+  ViewChild,
+  Input,
+} from '@angular/core';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { RupiahPipe } from '../rupiah.pipe';
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule,MatButtonModule, RouterModule, MatIconModule],
+  imports: [
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatButtonModule,
+    RouterModule,
+    MatIconModule,
+    RupiahPipe
+  ],
   templateUrl: './table.component.html',
-  styleUrl: './table.component.css'
+  styleUrl: './table.component.css',
 })
 export class TableComponent implements AfterViewInit, OnInit {
   @Input() displayedColumns: string[] = [];
@@ -33,7 +51,6 @@ export class TableComponent implements AfterViewInit, OnInit {
 
   constructor(private router: Router) {}
 
-  
   ngOnInit() {}
 
   ngAfterViewInit() {
@@ -50,7 +67,7 @@ export class TableComponent implements AfterViewInit, OnInit {
     }
   }
 
-   goToAdd() {
+  goToAdd() {
     this.router.navigate([this.addRoute]);
   }
 

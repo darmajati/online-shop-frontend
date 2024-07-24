@@ -25,7 +25,7 @@
           <span class="bold">Stock:</span> {{ item.stock }}
         </mat-list-item>
         <mat-list-item *ngIf="item" role="listitem">
-            <span class="bold">Price:</span> {{ item.price }}
+            <span class="bold">Price:</span> {{ item.price | rupiah }}
           </mat-list-item>
         <mat-list-item *ngIf="item" role="listitem">
           <span class="bold">Last Re Stock:</span> {{ item.lastReStock | date }}

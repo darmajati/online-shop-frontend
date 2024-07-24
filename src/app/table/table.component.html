@@ -29,7 +29,10 @@
         <ng-container *ngIf="column === 'pic'">
           <img *ngIf="row[column]" [src]="row[column]" alt="Image" width="40" height="40">
         </ng-container>
-        <ng-container *ngIf="column !== 'pic' && column !== 'Action'">
+        <ng-container *ngIf="column === 'totalPrice'">
+          {{ row[column] | rupiah }}
+        </ng-container>
+        <ng-container *ngIf="column !== 'pic' && column !== 'Action' && column !== 'totalPrice'">
           {{ row[column] }}
         </ng-container>
         <ng-container *ngIf="column === 'Action'">

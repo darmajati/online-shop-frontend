@@ -7,15 +7,24 @@ import { MatListModule } from '@angular/material/list';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { OrderDetailResponse } from '../order/order';
 import { OrderService } from '../order/order.service';
+import { RupiahPipe } from '../rupiah.pipe';
 
 @Component({
   selector: 'app-order-detail',
   standalone: true,
-  imports: [CommonModule, MatListModule, RouterModule, MatCardModule, MatButtonModule, MatIcon],
+  imports: [
+    CommonModule,
+    MatListModule,
+    RouterModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIcon,
+    RupiahPipe
+  ],
   templateUrl: './order-detail.component.html',
-  styleUrl: './order-detail.component.css'
+  styleUrl: './order-detail.component.css',
 })
-export class OrderDetailComponent implements OnInit{
+export class OrderDetailComponent implements OnInit {
   order: OrderDetailResponse | undefined;
 
   constructor(
@@ -25,7 +34,7 @@ export class OrderDetailComponent implements OnInit{
 
   ngOnInit(): void {
     const itemId = this.route.snapshot.paramMap.get('id');
-    if(itemId) {
+    if (itemId) {
       this.loadOrderDetail(itemId);
     }
   }
@@ -36,8 +45,8 @@ export class OrderDetailComponent implements OnInit{
         this.order = order;
       },
       error: (error) => {
-        console.error('There was an error!', error)
-      }
-    })
+        console.error('There was an error!', error);
+      },
+    });
   }
 }

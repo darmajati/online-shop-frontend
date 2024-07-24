@@ -11,26 +11,26 @@
     <mat-card-content>
       <mat-list role="list">
         <mat-list-item *ngIf="order" role="listitem">
-          <span class="bold">Order Id:</span> {{ order?.orderId }}
+          <span class="bold">Order Id:</span> {{ order.orderId }}
         </mat-list-item>
         <mat-list-item *ngIf="order" role="listitem">
-          <span class="bold">Order Code:</span> {{ order?.orderCode }}
+          <span class="bold">Order Code:</span> {{ order.orderCode }}
         </mat-list-item>
         <mat-list-item *ngIf="order" role="listitem">
-          <span class="bold">Order Date:</span> {{ order?.orderDate }}
+          <span class="bold">Order Date:</span> {{ order.orderDate }}
         </mat-list-item>
         <mat-list-item *ngIf="order" role="listitem">
-          <span class="bold">Total Price:</span> {{ order?.totalPrice }}
+          <span class="bold">Total Price:</span> {{ order.totalPrice | rupiah}}
         </mat-list-item>
         <mat-list-item *ngIf="order" role="listitem">
-          <span class="bold">Customer Id:</span> {{ order?.customerId }}
+          <span class="bold">Customer Id:</span> {{ order.customerId }}
         </mat-list-item>
 
         <mat-list-item *ngIf="order" role="listitem">
-          <span class="bold">Item Id:</span> {{ order?.itemId }}
+          <span class="bold">Item Id:</span> {{ order.itemId }}
         </mat-list-item>
         <mat-list-item *ngIf="order" role="listitem">
-          <span class="bold">Quantity:</span> {{ order?.quantity }}
+          <span class="bold">Quantity:</span> {{ order.quantity }}
         </mat-list-item>
       </mat-list>
     </mat-card-content>
