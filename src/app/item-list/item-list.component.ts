@@ -13,6 +13,12 @@ import { TableComponent } from '../table/table.component';
 })
 export class ItemListComponent {
   displayedColumns: string[] = ['itemId', 'itemName', 'itemCode', 'Action'];
+  columnNames: { [key: string]: string } = {
+    itemId: 'ID',
+    itemName: 'Item Name',
+    itemCode: 'Item Code',
+    Action: 'Action'
+  };
   dataSource: MatTableDataSource<Item>;
 
   constructor(private itemService: ItemService) {

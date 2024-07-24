@@ -25,7 +25,8 @@ export class TableComponent implements AfterViewInit, OnInit {
   @Input() componentDetail: string = '';
   @Input() componentEdit: string = '';
   @Input() deleteCallback: (id: number) => void = () => {};
-  @Input() showDownloadButton: boolean = false; // New parameter
+  @Input() showDownloadButton: boolean = false;
+  @Input() columnNames: { [key: string]: string } = {};
 
   @ViewChild(MatPaginator) paginator: MatPaginator = {} as MatPaginator;
   @ViewChild(MatSort) sort: MatSort = {} as MatSort;

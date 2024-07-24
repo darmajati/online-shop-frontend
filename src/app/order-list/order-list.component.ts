@@ -20,6 +20,13 @@ export class OrderListComponent {
     'totalPrice',
     'Action',
   ];
+  columnNames: { [key: string]: string } = {
+    orderId: 'ID',
+    orderCode: 'Order Code',
+    orderDate: 'Order Date',
+    totalPrice: 'Total Price',
+    Action: 'Action'
+  };
   dataSource: MatTableDataSource<Order>;
 
   constructor(private orderService: OrderService) {

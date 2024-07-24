@@ -9,10 +9,23 @@ import { Customer } from '../customer/customer';
   standalone: true,
   imports: [TableComponent],
   templateUrl: './customer-list.component.html',
-  styleUrls: ['./customer-list.component.css']
+  styleUrls: ['./customer-list.component.css'],
 })
 export class CustomerListComponent {
-  displayedColumns: string[] = ['pic', 'customerId', 'customerName', 'customerCode', 'Action'];
+  displayedColumns: string[] = [
+    'customerId',
+    'pic',
+    'customerName',
+    'customerCode',
+    'Action',
+  ];
+  columnNames: { [key: string]: string } = {
+    pic: 'Avatar',
+    customerId: 'ID',
+    customerName: 'Customer Name',
+    customerCode: 'Customer Code',
+    Action: 'Action'
+  };
   dataSource: MatTableDataSource<Customer>;
 
   constructor(private customerService: CustomerService) {
@@ -30,18 +43,20 @@ export class CustomerListComponent {
       },
       error: (error) => {
         console.error('There was an error!', error);
-      }
+      },
     });
   }
 
   deleteCustomer(id: number) {
     this.customerService.deleteCustomer(id).subscribe({
       next: () => {
-        this.dataSource.data = this.dataSource.data.filter(customer => customer.customerId !== id);
+        this.dataSource.data = this.dataSource.data.filter(
+          (customer) => customer.customerId !== id
+        );
       },
       error: (error) => {
         console.error('There was an error!', error);
-      }
+      },
     });
   }
 
