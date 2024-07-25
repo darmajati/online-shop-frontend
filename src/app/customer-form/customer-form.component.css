@@ -39,6 +39,10 @@ h3 {
   display: flex;
   justify-content: flex-start;
   width: 100%;
+  margin-bottom: 3px;
+}
+
+.imageError {
   margin-bottom: 16px;
 }
 

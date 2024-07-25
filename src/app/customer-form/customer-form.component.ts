@@ -29,6 +29,7 @@
     isFileChanged = false;
     isEditMode = false;
     customerId: string | null = null;
+    fileError = '';
 
     constructor(
       private fb: FormBuilder,
@@ -39,7 +40,7 @@
       this.customerForm = this.fb.group({
         customerName: ['', Validators.required],
         customerAddress: ['', Validators.required],
-        customerPhone: ['', Validators.required],
+        customerPhone: ['', [Validators.required, Validators.pattern('^[+0-9]*$')]],
       });
     }
 
@@ -64,10 +65,18 @@
 
     onFileChange(event: any) {
       const file = event.target.files[0];
+      const fileExtension = file.name.split('.').pop().toLowerCase();
+      const validExtensions = ['jpg', 'jpeg', 'png'];
+      if (!validExtensions.includes(fileExtension)) {
+        this.snackBar.open('Only JPG, JPEG, and PNG files are allowed', 'Close', { duration: 3000 });
+        return;
+      }
+      this.fileError = '';
       this.file = file;
       this.isFileChanged = true; // File has been changed
       this.previewImage(file);
     }
+  
 
     previewImage(file: File) {
       const reader = new FileReader();
@@ -80,13 +89,19 @@
     }
 
     clearImage() {
-      this.uploadedImage = null; // Kosongkan uploadedImage
+      this.uploadedImage = null;
+      this.isFileChanged = true; 
+      this.file = null!;
     }
 
     onSubmit() {
       if (this.customerForm.valid) {
         const customerData = this.customerForm.value;
-        console.log('Submitting customer data:', customerData); // Log the data
+         if (!this.isEditMode && !this.file) {
+        this.fileError = 'Photo is required for adding a new customer';
+        this.snackBar.open(this.fileError, 'Close', { duration: 3000 });
+        return;
+      }
         if (this.isEditMode && this.customerId) {
           // Update customer
           console.log('Updating customer with ID:', this.customerId);
@@ -114,6 +129,8 @@
             }
           );
         }
+      } else {
+        this.snackBar.open('Please fill all required fields correctly', 'Close', { duration: 3000 });
       }
     }
     

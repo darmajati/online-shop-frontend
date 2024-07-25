@@ -16,17 +16,32 @@
         <span class="close-icon" (click)="clearImage()">&times;</span>
       </div>
     </div>
+    <div class="imageError">
+      <mat-error *ngIf="fileError">{{ fileError }}</mat-error>
+    </div>
     <mat-form-field class="full-width">
       <mat-label>Customer Name</mat-label>
       <input matInput formControlName="customerName" />
+      <mat-error *ngIf="customerForm.get('customerName')?.hasError('required')">
+        Customer name is required.
+      </mat-error>
     </mat-form-field>
     <mat-form-field class="full-width">
       <mat-label>Customer Address</mat-label>
       <input matInput formControlName="customerAddress" />
+      <mat-error *ngIf="customerForm.get('customerAddress')?.hasError('required')">
+        Customer address is required.
+      </mat-error>
     </mat-form-field>
     <mat-form-field class="full-width">
       <mat-label>Customer Phone Number</mat-label>
       <input matInput formControlName="customerPhone" />
+      <mat-error *ngIf="customerForm.get('customerPhone')?.hasError('required')">
+        Customer phone number is required.
+      </mat-error>
+      <mat-error *ngIf="customerForm.get('customerPhone')?.hasError('pattern')">
+        Customer phone number must be numeric and can include "+".
+      </mat-error>
     </mat-form-field>
     
     <div class="add-button">

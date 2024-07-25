@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -25,9 +25,9 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 })
 export class ItemFormComponent {
   itemForm = new FormGroup({
-    itemName: new FormControl(''),
-    stock: new FormControl<number | null>(null),
-    price: new FormControl<number | null>(null),
+    itemName: new FormControl('', Validators.required),
+    stock: new FormControl<number | null>(null, [Validators.required, Validators.min(0)]),
+    price: new FormControl<number | null>(null,[Validators.required, Validators.min(0)]),
   });
 
   isEditMode = false;
@@ -58,31 +58,36 @@ export class ItemFormComponent {
   }
 
   onSubmit() {
-    const itemData: Item = this.itemForm.value as Item;
-    if (this.isEditMode && this.itemId) {
-      // Update item
-      this.itemService.update(this.itemId, itemData).subscribe(
-        (response) => {
-          console.log('Item updated successfully', response);
-          this.snackBar.open('Item updated successfully', 'Close', { duration: 2000 });
-        },
-        (error) => {
-          console.error('Error updating item', error);
-          this.snackBar.open('Error updating item', 'Close', { duration: 3000 });
-        }
-      );
+    if (this.itemForm.valid) {
+      const itemData: Item = this.itemForm.value as Item;
+      if (this.isEditMode && this.itemId) {
+        // Update item
+        this.itemService.update(this.itemId, itemData).subscribe(
+          (response) => {
+            console.log('Item updated successfully', response);
+            this.snackBar.open('Item updated successfully', 'Close', { duration: 2000 });
+          },
+          (error) => {
+            console.error('Error updating item', error);
+            this.snackBar.open('Error updating item', 'Close', { duration: 3000 });
+          }
+        );
+      } else {
+        // Create new item
+        this.itemService.create(itemData).subscribe(
+          (response) => {
+            console.log('Item created successfully', response);
+            this.snackBar.open('Item created successfully', 'Close', { duration: 2000 });
+          },
+          (error) => {
+            console.error('Error creating item', error);
+            this.snackBar.open('Error creating item', 'Close', { duration: 3000 });
+          }
+        );
+      }
     } else {
-      // Create new item
-      this.itemService.create(itemData).subscribe(
-        (response) => {
-          console.log('Item created successfully', response);
-          this.snackBar.open('Item created successfully', 'Close', { duration: 2000 });
-        },
-        (error) => {
-          console.error('Error creating item', error);
-          this.snackBar.open('Error creating item', 'Close', { duration: 3000 });
-        }
-      );
+      this.snackBar.open('Please fill all required fields correctly', 'Close', { duration: 3000 });
     }
   }
+  
 }

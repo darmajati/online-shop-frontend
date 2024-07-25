@@ -15,6 +15,9 @@
             {{ customer.customerName }}
           </mat-option>
         </mat-autocomplete>
+        <mat-error *ngIf="customerControl.hasError('required')">
+          Customer is required.
+        </mat-error>
       </mat-form-field>
     
       <!-- Item Autocomplete -->
@@ -25,17 +28,25 @@
             {{ item.itemName }}
           </mat-option>
         </mat-autocomplete>
-      </mat-form-field >
+        <mat-error *ngIf="itemControl.hasError('required')">
+          Item is required.
+        </mat-error>
+      </mat-form-field>
     
       <!-- Quantity Input -->
       <mat-form-field class="full-width">
         <input matInput placeholder="Quantity" formControlName="quantity" type="number">
+        <mat-error *ngIf="orderForm.get('quantity')?.hasError('required')">
+          Quantity is required.
+        </mat-error>
+        <mat-error *ngIf="orderForm.get('quantity')?.hasError('min')">
+          Quantity must be at least 1.
+        </mat-error>
       </mat-form-field>
 
       <div class="add-button">
-      <button mat-raised-button type="submit">Submit</button>
+        <button mat-raised-button type="submit">Submit</button>
       </div>
     </form>
-    
   </div>
 </div>

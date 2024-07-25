@@ -5,7 +5,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CustomerService } from '../customer/customer.service';
 import { ItemService } from '../item/item.service';
 import { map, Observable, startWith } from 'rxjs';
@@ -33,15 +39,18 @@ import { Order } from '../order/order';
 })
 export class OrderFormComponent implements OnInit {
   orderForm = new FormGroup({
-    customerId: new FormControl<number | null>(null),
-    itemsId: new FormControl<number | null>(null),
-    quantity: new FormControl<number | null>(null),
+    customerId: new FormControl<number | null>(null, Validators.required),
+    itemsId: new FormControl<number | null>(null, Validators.required),
+    quantity: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.min(1),
+    ]),
   });
 
   isEditMode = false;
   orderId: string | null = null;
-  customerControl = new FormControl('');
-  itemControl = new FormControl('');
+  customerControl = new FormControl('', Validators.required);
+  itemControl = new FormControl('', Validators.required);
   filteredCustomers: Observable<Customer[]> | undefined;
   filteredItems: Observable<Item[]> | undefined;
   customers: Customer[] = [];
@@ -53,17 +62,20 @@ export class OrderFormComponent implements OnInit {
     private route: ActivatedRoute,
     private customerService: CustomerService,
     private itemService: ItemService
-    
   ) {}
 
   ngOnInit() {
-    this.orderId = this.route.snapshot.paramMap.get('id');
-    if (this.orderId) {
-      this.isEditMode = true;
-      this.loadOrder(this.orderId);
-    }
     this.loadCustomers();
     this.loadItems();
+
+    // Load order after customers and items are loaded
+    setTimeout(() => {
+      this.orderId = this.route.snapshot.paramMap.get('id');
+      if (this.orderId) {
+        this.isEditMode = true;
+        this.loadOrder(this.orderId);
+      }
+    }, 500); // Adjust the timeout as needed
   }
 
   private loadOrder(id: string) {
@@ -73,6 +85,17 @@ export class OrderFormComponent implements OnInit {
         itemsId: order.itemId,
         quantity: order.quantity,
       });
+      // Set default values for the autocomplete fields
+      const customer = this.customers.find(
+        (c) => c.customerId === order.customerId
+      );
+      if (customer) {
+        this.customerControl.setValue(customer.customerName);
+      }
+      const item = this.items.find((i) => i.itemId === order.itemId);
+      if (item) {
+        this.itemControl.setValue(item.itemName);
+      }
     });
   }
 
@@ -81,7 +104,7 @@ export class OrderFormComponent implements OnInit {
       this.customers = data;
       this.filteredCustomers = this.customerControl.valueChanges.pipe(
         startWith(''),
-        map(value => this.filterCustomers(value || ''))
+        map((value) => this.filterCustomers(value || ''))
       );
     });
   }
@@ -91,64 +114,82 @@ export class OrderFormComponent implements OnInit {
       this.items = data;
       this.filteredItems = this.itemControl.valueChanges.pipe(
         startWith(''),
-        map(value => this.filterItems(value || ''))
+        map((value) => this.filterItems(value || ''))
       );
     });
   }
 
   private filterCustomers(value: string): Customer[] {
-    const filterValue = value;
-    return this.customers.filter(customer =>
+    const filterValue = value.toLowerCase();
+    return this.customers.filter((customer) =>
       customer.customerName.toLowerCase().includes(filterValue)
     );
   }
 
   private filterItems(value: string): Item[] {
-    const filterValue = value;
-    return this.items.filter(item =>
+    const filterValue = value.toLowerCase();
+    return this.items.filter((item) =>
       item.itemName.toLowerCase().includes(filterValue)
     );
   }
 
   onSubmit() {
-    const orderData: Order = this.orderForm.value as Order;
-    console.log('Order Data:', orderData);
-    if (this.isEditMode && this.orderId) {
-      // Update order
-      this.orderService.update(this.orderId, orderData).subscribe(
-        (response) => {
-          console.log('Order updated successfully', response);
-          this.snackBar.open('Order updated successfully', 'Close', { duration: 2000 });
-        },
-        (error) => {
-          console.error('Error updating order', error);
-          this.snackBar.open('Error updating order', 'Close', { duration: 3000 });
-        }
-      );
+    if (this.orderForm.valid) {
+      const orderData: Order = this.orderForm.value as Order;
+      console.log('Order Data:', orderData);
+      if (this.isEditMode && this.orderId) {
+        // Update order
+        this.orderService.update(this.orderId, orderData).subscribe(
+          (response) => {
+            console.log('Order updated successfully', response);
+            this.snackBar.open('Order updated successfully', 'Close', {
+              duration: 2000,
+            });
+          },
+          (error) => {
+            console.error('Error updating order', error);
+            this.snackBar.open('Error updating order', 'Close', {
+              duration: 3000,
+            });
+          }
+        );
+      } else {
+        // Create new order
+        this.orderService.create(orderData).subscribe(
+          (response) => {
+            console.log('Order created successfully', response);
+            this.snackBar.open('Order created successfully', 'Close', {
+              duration: 2000,
+            });
+          },
+          (error) => {
+            console.error('Error creating order', error);
+            this.snackBar.open('Error creating order', 'Close', {
+              duration: 3000,
+            });
+          }
+        );
+      }
     } else {
-      // Create new order
-      this.orderService.create(orderData).subscribe(
-        (response) => {
-          console.log('Order created successfully', response);
-          this.snackBar.open('Order created successfully', 'Close', { duration: 2000 });
-        },
-        (error) => {
-          console.error('Error creating order', error);
-          this.snackBar.open('Error creating order', 'Close', { duration: 3000 });
-        }
-      );
+      this.snackBar.open('Please fill all required fields correctly', 'Close', {
+        duration: 3000,
+      });
     }
   }
 
   onCustomerSelected(event: any) {
-    const selectedCustomer = this.customers.find(c => c.customerId === event.option.value);
+    const selectedCustomer = this.customers.find(
+      (c) => c.customerId === event.option.value
+    );
     if (selectedCustomer) {
       this.orderForm.patchValue({ customerId: selectedCustomer.customerId });
     }
   }
 
   onItemSelected(event: any) {
-    const selectedItem = this.items.find(i => i.itemId === event.option.value);
+    const selectedItem = this.items.find(
+      (i) => i.itemId === event.option.value
+    );
     if (selectedItem) {
       this.orderForm.patchValue({ itemsId: selectedItem.itemId });
     }
